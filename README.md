@@ -26,12 +26,11 @@ or simply add this line to your ``Gemfile``
 This example will add data from a File / IO stream to *IPFS*. 
 
 ```rb
-ipfs.add(
-  IPFS::Upload::FileNode.new(file_name) do |file|
+node = ipfs.add(
+  IPFS::Upload::FileNode.new("foo.txt") do |file|
     file.write File.read('./foo.txt')
   end
 )
-node = ipfs.add filenode
 puts "foo.txt added in ipfs - hash: #{node.first.hash}"
 ```
 

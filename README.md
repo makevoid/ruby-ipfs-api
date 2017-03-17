@@ -5,6 +5,7 @@ IPFS-API for Ruby is a client library to access the [Interplanetary Filesystem (
 You can find more examples in the
 [examples directory](https://github.com/hjoest/ruby-ipfs-api/tree/master/examples).
 
+
 ## Installation
 
 You need an [IPFS daemon](https://ipfs.io/docs/install/) running
@@ -19,9 +20,23 @@ or simply add this line to your ``Gemfile``
 
     gem 'ipfs-api', '~> 0.3.0'
 
+
 ## Basic examples
 
-This example will add a directory to *IPFS*. The directory ``data``
+This example will add data from a File / IO stream to *IPFS*. 
+
+```rb
+ipfs.add(
+  IPFS::Upload::FileNode.new(file_name) do |file|
+    file.write File.read('./foo.txt')
+  end
+)
+node = ipfs.add filenode
+puts "foo.txt added in ipfs - hash: #{node.first.hash}"
+```
+
+
+This example instead will add a directory to *IPFS*. The directory ``data``
 must exist or otherwise an ``Errno::ENOENT`` error will be raised.
 
 ```ruby
@@ -30,6 +45,7 @@ require 'ipfs-api'
 ipfs = IPFS::Connection.new
 ipfs.add Dir.new('data')
 ```
+
 
 Afterwards, we can retrieve what we put in.
 
@@ -44,6 +60,7 @@ print ipfs.cat('QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG')
 # retrieve the whole directory and make a copy of it in ``copy-of-data``
 ipfs.get('QmSh4Xjoy16v6XmnREE1yCrPM1dnizZc2h6LfrqXsnbBV7', 'copy-of-data')
 ```
+
 
 ## Advanced
 
@@ -67,6 +84,7 @@ ipfs.add folder do |node|
   print "#{node.name}: #{node.hash}\n" if node.finished?
 end
 ```
+
 
 ## License
 

@@ -31,8 +31,8 @@ node = ipfs.add(
     file.write File.read('./foo.txt')
   end
 )
-puts "foo.txt added in ipfs - hash: #{node.first.hash}"
 ```
+<!--  puts "foo.txt added in ipfs - hash: #{node.first.hash}" -->
 
 
 This example instead will add a directory to *IPFS*. The directory ``data``
@@ -44,6 +44,7 @@ require 'ipfs-api'
 ipfs = IPFS::Connection.new
 ipfs.add Dir.new('data')
 ```
+<!--  puts "foo.txt added in ipfs - hash: #{node.first.hash}" -->
 
 
 Afterwards, we can retrieve what we put in.
@@ -88,3 +89,37 @@ end
 ## License
 
 This library is distributed under the [MIT License](https://github.com/hjoest/ruby-ipfs-api/tree/master/LICENSE).
+
+
+<!-- 
+
+TODO: open pull request
+
+I edited the readme to add a simpler `ipfs.add_file()` that adds only one file.
+
+I was planning to also add a method to the ipfs instance like this one:
+
+```ruby
+def add_file(file_path)
+  file_name = File.basename file_path
+  add(
+    Upload::FileNode.new(file_name) do |file|
+      file.write File.read(file_path)
+    end
+  )
+end
+```
+or 
+
+```ruby
+def add_file(file_path)
+  file_name = File.basename file_path
+  file_node = Upload::FileNode.new(file_name) do |file|
+    file.write File.read(file_path)
+  end
+  add file_node
+end
+```
+
+
+-->
